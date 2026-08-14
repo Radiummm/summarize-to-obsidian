@@ -1,0 +1,4 @@
+interface:
+  display_name: "对话归档到 Obsidian"
+  short_description: "筛选重点并保存为可检索的 Obsidian 对话笔记"
+  default_prompt: "Use $summarize-to-obsidian to distill this conversation and save the meaningful record in my Obsidian vault."
