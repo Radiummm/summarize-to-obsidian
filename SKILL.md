@@ -17,7 +17,7 @@ Turn a conversation into a durable note that preserves what will matter later. W
 3. If the conversation has no durable value, say so succinctly and do not create a note unless the user explicitly wants even low-value chats archived.
 4. Write a self-contained Markdown note in the user's language. Do not claim facts that were not established in the conversation.
 5. If the conversation is executing a task, record the current state rather than only the final goal: completed work, work in progress, planned work, blockers or failures, important files or commands changed, and the next concrete step. Mark the state as of the end of the conversation.
-6. Resolve the Obsidian vault and destination folder. Use a path the user supplied or previously confirmed. If none is known, inspect likely local vault locations only when appropriate; otherwise ask for the vault path before writing.
+6. Resolve the Obsidian vault and automatically classify the note into the most relevant existing folder based on its primary topic. Prefer the user's established folder taxonomy and related notes; use an inbox or pending-organization folder when no confident category exists. Use a vault path the user supplied or previously confirmed. If none is known, inspect likely local vault locations only when appropriate; otherwise ask for the vault path before writing.
 7. Save the note with `scripts/save_obsidian_note.py`. Report the created file path and a concise summary of what was captured.
 
 ## Note Quality
@@ -30,7 +30,7 @@ Turn a conversation into a durable note that preserves what will matter later. W
 - For an active task, include a `## 当前进度` section with status, completed items, in-progress items, blockers, and next steps. Include only categories that have meaningful content.
 - Prefer concise prose plus bullets. Include enough rationale that a future reader can understand why a decision was made.
 - Use `- [ ]` only for genuinely actionable, unfinished items. Do not manufacture tasks.
-- Add `## 对话元数据` only when useful, with the conversation date and a short scope statement. Do not add metadata merely to fill space.
+- Always add `## 对话元数据` with the conversation time, primary topic, agent name, and exact model identifier. Use runtime-provided identity when available; never infer or invent a model name. Write `未知` (or the note-language equivalent) when the exact agent or model cannot be determined.
 
 ## Suggested Note Shape
 
@@ -58,7 +58,10 @@ Turn a conversation into a durable note that preserves what will matter later. W
 ## 未决问题
 
 ## 对话元数据
-- 日期：YYYY-MM-DD
+- 时间：YYYY-MM-DD HH:mm TZ
+- 主题：Specific topic
+- Agent：Codex / ChatGPT / Pi / other runtime agent
+- 模型：Exact runtime model identifier or 未知
 - 范围：What this note covers
 ```
 
@@ -66,8 +69,8 @@ Adapt this shape. Remove empty sections and add domain-specific ones such as `�
 
 ## File Naming and Safety
 
-- Use a concise, descriptive filename: `YYYY-MM-DD - topic.md` unless the vault follows another convention.
-- Save below the confirmed vault root; default to the root only when no folder convention is known.
+- Use the normalized filename `YYYY-MM-DD HHmm - topic - agent.md`, with a concise searchable topic and the actual agent name. Omit characters that are unsafe in filenames. Follow a stricter existing vault convention only when it still preserves time, topic, and agent.
+- Automatically save below the confirmed vault root in the most relevant existing topic folder. Prefer an established inbox or pending-organization folder over the vault root when classification is uncertain.
 - Never overwrite an existing note without explicit permission. The save script creates a numbered sibling when the intended filename already exists.
 - Do not modify existing vault indexes, daily notes, templates, or unrelated notes unless requested.
 
