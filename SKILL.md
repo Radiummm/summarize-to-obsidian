@@ -1,11 +1,20 @@
 ---
 name: summarize-to-obsidian
-description: Distill meaningful conversations into high-signal Obsidian Markdown notes and save them in the user's vault. Use when the user asks to summarize, archive, capture, record, or save a conversation/chat/discussion to Obsidian, especially when important decisions, research, plans, insights, requirements, or follow-up actions should be retained while irrelevant chatter is omitted or compressed.
+description: Distill meaningful conversations into high-signal Obsidian Markdown notes and save them in the user's vault. Automatically classify every note, name it with time/topic/agent, and record exact agent/model metadata. Use when the user asks to summarize, archive, capture, record, or save a conversation/chat/discussion to Obsidian.
 ---
 
 # Conversation to Obsidian
 
 Turn a conversation into a durable note that preserves what will matter later. Write for the user's future self, not as a chronological transcript.
+
+## Mandatory Output Contract
+
+Unless the user explicitly requests a different format, every saved note MUST satisfy all of these requirements. These requirements take priority over suggested layouts, examples, defaults, and existing naming conventions:
+
+1. **Classify automatically:** inspect the vault's existing taxonomy and save the note in the most relevant topic folder. Use an established inbox or pending-organization folder only when no confident category exists.
+2. **Normalize the filename:** use `YYYY-MM-DD HHmm - topic - agent.md`. The filename MUST contain the conversation time, a specific searchable topic, and the actual agent name.
+3. **Identify the runtime in the body:** include a `## 对话元数据` section containing `时间`, `主题`, `Agent`, and `模型`. Record the exact runtime model identifier when available; otherwise write `未知`. Never infer or invent it.
+4. **Verify before reporting success:** confirm the destination folder, filename, and all four metadata fields after saving. A note missing any requirement is incomplete and MUST be corrected before completion is reported.
 
 ## Workflow
 
@@ -81,7 +90,7 @@ Draft the complete note into a temporary Markdown file, then save it:
 ```bash
 python3 /path/to/summarize-to-obsidian/scripts/save_obsidian_note.py \
   --vault "/absolute/path/to/vault" \
-  --filename "YYYY-MM-DD - topic.md" \
+  --filename "YYYY-MM-DD HHmm - topic - agent.md" \
   --source "/absolute/path/to/draft.md"
 ```
 
