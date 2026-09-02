@@ -1,38 +1,48 @@
 ---
 name: summarize-to-obsidian
-description: Distill meaningful conversations into high-signal Obsidian Markdown notes and save them in the user's vault. Automatically classify every note, name it with time/topic/agent, and record exact agent/model metadata. Use when the user asks to summarize, archive, capture, record, or save a conversation/chat/discussion to Obsidian.
+description: Distill meaningful conversations into high-signal Obsidian Markdown notes centered on the conversation's primary focus. Automatically classify every note, name it with time/topic/agent, and record exact agent/model metadata. Use when the user asks to summarize, archive, capture, record, or save a conversation/chat/discussion to Obsidian.
 ---
 
 # Conversation to Obsidian
 
-Turn a conversation into a durable note that preserves what will matter later. Write for the user's future self, not as a chronological transcript.
+Turn a conversation into a durable note centered on what the conversation was actually trying to resolve. Write for the user's future self, not as a chronological transcript.
 
 ## Mandatory Output Contract
 
 Unless the user explicitly requests a different format, every saved note MUST satisfy all of these requirements. These requirements take priority over suggested layouts, examples, defaults, and existing naming conventions:
 
-1. **Classify automatically:** inspect the vault's existing taxonomy and save the note in the most relevant topic folder. Use an established inbox or pending-organization folder only when no confident category exists.
-2. **Normalize the filename:** use `YYYY-MM-DD HHmm - topic - agent.md`. The filename MUST contain the conversation time, a specific searchable topic, and the actual agent name.
-3. **Identify the runtime in the body:** include a `## 对话元数据` section containing `时间`, `主题`, `Agent`, and `模型`. Record the exact runtime model identifier when available; otherwise write `未知`. Never infer or invent it.
-4. **Verify before reporting success:** confirm the destination folder, filename, and all four metadata fields after saving. A note missing any requirement is incomplete and MUST be corrected before completion is reported.
+1. **Identify the primary focus first:** state the one concrete problem, decision, deliverable, or question the conversation principally advances. Use the final clarified intent when it supersedes an earlier request. Treat secondary topics only as supporting context unless they produce an independent decision or action.
+2. **Center the note on that focus:** the H1, filename topic, summary, section order, and retained details MUST serve the primary focus. Do not produce a chronological recap or give equal weight to every exchange.
+3. **Classify automatically:** inspect the vault's existing taxonomy and save the note in the most relevant topic folder. Use an established inbox or pending-organization folder only when no confident category exists.
+4. **Normalize the filename:** use `YYYY-MM-DD HHmm - topic - agent.md`. The filename MUST contain the conversation time, a specific searchable topic, and the actual agent name.
+5. **Identify the runtime in the body:** include a `## 对话元数据` section containing `时间`, `主题`, `Agent`, and `模型`. Record the exact runtime model identifier when available; otherwise write `未知`. Never infer or invent it.
+6. **Verify before reporting success:** confirm the destination folder, filename, primary focus, and all four metadata fields after saving. A note missing any requirement is incomplete and MUST be corrected before completion is reported.
+
+## 已配置环境
+
+- **Vault 路径**：`/Users/junjett/Downloads/learning/obsidian`
+- **目录约定**（编号式 PARA）：`00-首页`、`01-收件箱`、`10-知识`、`20-项目`、`30-日记`、`40-资源`、`90-附件`
+- **保存位置**：按对话重心自动归入最相关的现有目录；无法可靠判断时才使用 `01-收件箱`
+- **命名约定**：强制使用 `YYYY-MM-DD HHmm - topic - agent.md`
 
 ## Workflow
 
-1. Read the whole in-scope conversation and identify its main topic or topics.
-2. Classify content before drafting:
-   - **Retain in detail:** conclusions, decisions and rationale, user preferences, requirements, constraints, factual findings, technical designs, examples that establish an idea, unresolved questions, risks, and concrete next actions.
-   - **Compress:** background context, alternatives rejected with a short reason, routine progress, and supporting examples that add little new information.
-   - **Omit:** greetings, acknowledgements, duplicate statements, abandoned tangents, generic filler, and material unrelated to the note's topic.
-3. If the conversation has no durable value, say so succinctly and do not create a note unless the user explicitly wants even low-value chats archived.
-4. Write a self-contained Markdown note in the user's language. Do not claim facts that were not established in the conversation.
-5. If the conversation is executing a task, record the current state rather than only the final goal: completed work, work in progress, planned work, blockers or failures, important files or commands changed, and the next concrete step. Mark the state as of the end of the conversation.
-6. Resolve the Obsidian vault and automatically classify the note into the most relevant existing folder based on its primary topic. Prefer the user's established folder taxonomy and related notes; use an inbox or pending-organization folder when no confident category exists. Use a vault path the user supplied or previously confirmed. If none is known, inspect likely local vault locations only when appropriate; otherwise ask for the vault path before writing.
-7. Save the note with `scripts/save_obsidian_note.py`. Report the created file path and a concise summary of what was captured.
+1. Read the whole in-scope conversation, including later corrections and decisions.
+2. Identify the primary focus before drafting. Express it in one sentence: `本次对话重心：<the problem, decision, deliverable, or question>`. Prefer the user's latest clarified intent over the conversation's opening wording. When there are multiple topics, choose the one with the most consequential outcome; create separate notes only when the user requests it or the topics are independently durable.
+3. Classify content through that focus:
+   - **Retain in detail:** conclusions, decisions and rationale, user preferences, requirements, constraints, factual findings, technical designs, risks, and next actions that directly advance or constrain the focus.
+   - **Compress:** background context, alternatives rejected with a short reason, routine progress, and supporting examples that give necessary context but do not alter the outcome.
+   - **Omit:** greetings, acknowledgements, duplicate statements, abandoned tangents, generic filler, and material unrelated to the focus.
+4. If the conversation has no durable value, say so succinctly and do not create a note unless the user explicitly wants even low-value chats archived.
+5. Write a self-contained Markdown note in the user's language. Open `## 摘要` by stating the focus and its outcome; order later sections by their importance to that focus. Do not claim facts that were not established in the conversation.
+6. If the conversation is executing a task, record the current state rather than only the final goal: completed work, work in progress, planned work, blockers or failures, important files or commands changed, and the next concrete step. Mark the state as of the end of the conversation.
+7. Resolve the configured Obsidian vault and automatically classify the note into the most relevant existing folder based on its primary focus. Prefer the established folder taxonomy and related notes; use `01-收件箱` when no confident category exists.
+8. Save the note with `scripts/save_obsidian_note.py`. Report the created file path and a concise summary of the captured focus and outcome.
 
 ## Note Quality
 
-- Give the note a specific, searchable H1 rather than a generic title such as "Conversation summary".
-- Start with `## 摘要` (or the equivalent in the note language) containing 2-6 sentences that state the result and stakes.
+- Give the note a specific, searchable H1 derived from the primary focus rather than a generic title such as "Conversation summary".
+- Start with `## 摘要` (or the equivalent in the note language) containing 2-6 sentences that state the primary focus, result, and stakes.
 - Use informative sections only when they have content. Typical sections are `## 核心结论`, `## 关键讨论`, `## 决策与理由`, `## 实施要点`, `## 待办`, `## 未决问题`, and `## 参考`.
 - Preserve exact dates, numbers, names, commands, code identifiers, paths, and links when they affect later work.
 - Separate confirmed conclusions from proposals, assumptions, and open questions.
@@ -69,6 +79,7 @@ Unless the user explicitly requests a different format, every saved note MUST sa
 ## 对话元数据
 - 时间：YYYY-MM-DD HH:mm TZ
 - 主题：Specific topic
+- 对话重心：The concrete problem, decision, deliverable, or question this note centers on
 - Agent：Codex / ChatGPT / Pi / other runtime agent
 - 模型：Exact runtime model identifier or 未知
 - 范围：What this note covers
@@ -79,7 +90,7 @@ Adapt this shape. Remove empty sections and add domain-specific ones such as `�
 ## File Naming and Safety
 
 - Use the normalized filename `YYYY-MM-DD HHmm - topic - agent.md`, with a concise searchable topic and the actual agent name. Omit characters that are unsafe in filenames. Follow a stricter existing vault convention only when it still preserves time, topic, and agent.
-- Automatically save below the confirmed vault root in the most relevant existing topic folder. Prefer an established inbox or pending-organization folder over the vault root when classification is uncertain.
+- Automatically save below `/Users/junjett/Downloads/learning/obsidian` in the most relevant existing topic folder. Prefer `01-收件箱` when classification is uncertain.
 - Never overwrite an existing note without explicit permission. The save script creates a numbered sibling when the intended filename already exists.
 - Do not modify existing vault indexes, daily notes, templates, or unrelated notes unless requested.
 
@@ -89,7 +100,7 @@ Draft the complete note into a temporary Markdown file, then save it:
 
 ```bash
 python3 /path/to/summarize-to-obsidian/scripts/save_obsidian_note.py \
-  --vault "/absolute/path/to/vault" \
+  --vault "/Users/junjett/Downloads/learning/obsidian" \
   --filename "YYYY-MM-DD HHmm - topic - agent.md" \
   --source "/absolute/path/to/draft.md"
 ```

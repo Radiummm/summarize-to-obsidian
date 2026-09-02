@@ -12,13 +12,13 @@ cp -R summarize-to-obsidian ~/.codex/skills/
 
 ## Use
 
-Ask Codex to save, archive, capture, or summarize a conversation to Obsidian. The skill will identify the durable information, automatically classify the note into the most relevant existing vault folder, use a normalized `time - topic - agent` filename, record the exact agent and model in the note, and save it using the included collision-safe script.
+Ask Codex to save, archive, capture, or summarize a conversation to Obsidian. The skill first identifies the conversation's primary focus, then uses that focus to determine the note title, retained information, folder, and summary. It saves notes in `/Users/junjett/Downloads/learning/obsidian`, uses a normalized `time - topic - agent` filename, records the exact agent and model, and writes with the included collision-safe script.
 
 The script requires an existing vault directory and will not overwrite an existing note. It creates a numbered sibling when the requested filename already exists.
 
 ```bash
 python3 scripts/save_obsidian_note.py \
-  --vault "/absolute/path/to/vault" \
+  --vault "/Users/junjett/Downloads/learning/obsidian" \
   --filename "2026-08-14 1530 - topic - Codex.md" \
   --source "/absolute/path/to/draft.md" \
   --folder "Inbox/Conversations"
