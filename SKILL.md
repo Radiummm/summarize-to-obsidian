@@ -32,7 +32,8 @@ Unless the user explicitly requests a different format, every saved note MUST sa
 3. Classify content through that focus:
    - **Retain in detail:** conclusions, decisions and rationale, user preferences, requirements, constraints, factual findings, technical designs, risks, and next actions that directly advance or constrain the focus.
    - **Compress:** background context, alternatives rejected with a short reason, routine progress, and supporting examples that give necessary context but do not alter the outcome.
-   - **Omit:** greetings, acknowledgements, duplicate statements, abandoned tangents, generic filler, and material unrelated to the focus.
+   - **Omit:** greetings, acknowledgements, duplicate statements, abandoned tangents, generic filler, material unrelated to the focus, and routine Git/PR mechanics such as commit hashes, branches, pushes, pull requests, and diff status.
+   - **Git/PR exception:** retain Git or PR information only when the conversation's primary focus is code review, a PR, release/version control, or when that information is required to explain a decision, blocker, or unfinished action. Keep it to the minimum necessary fact.
 4. If the conversation has no durable value, say so succinctly and do not create a note unless the user explicitly wants even low-value chats archived.
 5. Write a self-contained Markdown note in the user's language. Open `## 摘要` by stating the focus and its outcome; order later sections by their importance to that focus. Do not claim facts that were not established in the conversation.
 6. If the conversation is executing a task, record the current state rather than only the final goal: completed work, work in progress, planned work, blockers or failures, important files or commands changed, and the next concrete step. Mark the state as of the end of the conversation.
@@ -44,7 +45,7 @@ Unless the user explicitly requests a different format, every saved note MUST sa
 - Give the note a specific, searchable H1 derived from the primary focus rather than a generic title such as "Conversation summary".
 - Start with `## 摘要` (or the equivalent in the note language) containing 2-6 sentences that state the primary focus, result, and stakes.
 - Use informative sections only when they have content. Typical sections are `## 核心结论`, `## 关键讨论`, `## 决策与理由`, `## 实施要点`, `## 待办`, `## 未决问题`, and `## 参考`.
-- Preserve exact dates, numbers, names, commands, code identifiers, paths, and links when they affect later work.
+- Keep Git and PR references out of the note unless version control or code review is the primary focus, or a minimal reference is necessary to explain the outcome, blocker, or next action.
 - Separate confirmed conclusions from proposals, assumptions, and open questions.
 - For an active task, include a `## 当前进度` section with status, completed items, in-progress items, blockers, and next steps. Include only categories that have meaningful content.
 - Prefer concise prose plus bullets. Include enough rationale that a future reader can understand why a decision was made.
